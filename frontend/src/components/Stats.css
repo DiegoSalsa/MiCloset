@@ -1,0 +1,383 @@
+.stats-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #0f0f0f;
+  min-height: calc(100vh - 80px);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.stats-container.loading,
+.stats-container.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 80px);
+  color: #ffffff;
+  font-size: 1.3em;
+}
+
+.stats-container h1 {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 40px;
+  font-size: 2.5em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.stats-section {
+  background: #1a1a1a;
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.5s ease-out;
+  border: 1px solid #333;
+}
+
+.stats-section.warning {
+  border-left: 5px solid #ff6464;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stats-section h2 {
+  color: #ffffff;
+  margin-bottom: 25px;
+  font-size: 1.8em;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+/* Summary Cards */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #252525;
+  color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  border: 1px solid #333;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border-color: #555;
+}
+
+.card.success {
+  background: #1a4d47;
+}
+
+.card.danger {
+  background: #4d1a2a;
+}
+
+.card-label {
+  font-size: 0.95em;
+  opacity: 0.8;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #b0b0b0;
+}
+
+.card-value {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* Items Grid */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.item-card {
+  background: #252525;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.item-card:hover {
+  border-color: #555;
+  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+}
+
+.item-card.problematic {
+  border-left: 4px solid #ff6464;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 15px;
+}
+
+.item-header h3 {
+  color: #ffffff;
+  margin: 0;
+  flex: 1;
+  font-size: 1.1em;
+}
+
+.category-badge {
+  background: #333;
+  color: #e0e0e0;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: 10px;
+  border: 1px solid #555;
+}
+
+.item-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #333;
+}
+
+.stat:last-child {
+  border-bottom: none;
+}
+
+.stat .label {
+  color: #b0b0b0;
+  font-size: 0.95em;
+  font-weight: 500;
+}
+
+.stat .value {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.reject-percentage {
+  font-size: 1.2em !important;
+  font-weight: bold !important;
+}
+
+/* Rejection Bar */
+.rejection-bar {
+  width: 100%;
+  height: 8px;
+  background: #333;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 12px 0;
+}
+
+.rejection-fill {
+  height: 100%;
+  background: #ff6464;
+  transition: width 0.5s ease;
+}
+
+/* Preference List */
+.preference-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.preference-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.preference-label {
+  min-width: 120px;
+  font-weight: 600;
+  color: #e0e0e0;
+  text-transform: capitalize;
+}
+
+.preference-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.preference-bar {
+  flex: 1;
+  height: 10px;
+  background: #333;
+  border-radius: 5px;
+  overflow: hidden;
+  min-width: 200px;
+}
+
+.preference-fill {
+  height: 100%;
+  background: #ffffff;
+  transition: width 0.5s ease;
+}
+
+.preference-percentage {
+  min-width: 60px;
+  text-align: right;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 0.95em;
+}
+
+/* Colors Grid */
+.colors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 15px;
+}
+
+.color-item {
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.color-item:hover {
+  transform: scale(1.1);
+}
+
+.color-box {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  border: 1px solid #555;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.color-item:hover .color-box {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.color-name {
+  margin-top: 10px;
+  color: #b0b0b0;
+  font-weight: 600;
+  text-transform: capitalize;
+  font-size: 0.95em;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  color: #777;
+  padding: 40px 20px;
+  font-size: 1.1em;
+  font-style: italic;
+}
+
+/* Refresh Button */
+.refresh-button {
+  display: block;
+  margin: 40px auto;
+  padding: 15px 40px;
+  background: #ffffff;
+  color: #0f0f0f;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.1);
+}
+
+.refresh-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
+  background: #e0e0e0;
+}
+
+.refresh-button:active {
+  transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-container {
+    padding: 15px;
+  }
+
+  .stats-container h1 {
+    font-size: 1.8em;
+    margin-bottom: 25px;
+  }
+
+  .stats-section {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .stats-section h2 {
+    font-size: 1.4em;
+  }
+
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .items-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .item-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .category-badge {
+    align-self: flex-start;
+  }
+
+  .preference-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .preference-bar-container {
+    width: 100%;
+  }
+
+  .colors-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+}

@@ -1,0 +1,450 @@
+<!-- HTML de Visualización del Proyecto -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiCloset - Visualización del Proyecto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: #f9f9f9;
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .feature::before {
+            content: "✅";
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .stats {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .architecture {
+            background: #f0f0f0;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+        
+        .architecture h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .arch-layer {
+            background: white;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-left: 5px solid #667eea;
+            border-radius: 8px;
+        }
+        
+        .arch-layer h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .arch-layer p {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        .endpoints {
+            background: #f9f9f9;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 40px 0;
+        }
+        
+        .endpoints h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .endpoint {
+            background: white;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-left: 4px solid #667eea;
+            border-radius: 6px;
+        }
+        
+        .endpoint-method {
+            display: inline-block;
+            font-weight: bold;
+            color: white;
+            background: #667eea;
+            padding: 3px 10px;
+            border-radius: 4px;
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+        
+        .endpoint-path {
+            color: #333;
+            font-family: monospace;
+        }
+        
+        .button-group {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .button {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .button:hover {
+            background: #764ba2;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .warning strong {
+            color: #856404;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #999;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👗 MiCloset</h1>
+        <p class="subtitle">Tu Closet Digital Inteligente con IA</p>
+        
+        <!-- Tarjetas Principales -->
+        <div class="grid">
+            <div class="card">
+                <h3>🚀 Inicio Rápido</h3>
+                <p>Todo lo que necesitas para empezar en 10 minutos</p>
+                <p style="color: #667eea; font-weight: bold;">👉 Lee: <code>INICIO_RAPIDO_VISUAL.md</code></p>
+            </div>
+            
+            <div class="card">
+                <h3>📖 Documentación</h3>
+                <p>Documentación completa y detallada de todo el proyecto</p>
+                <p style="color: #667eea; font-weight: bold;">👉 Lee: <code>INDEX.md</code></p>
+            </div>
+            
+            <div class="card">
+                <h3>🎯 Resumen Técnico</h3>
+                <p>Descripción arquitectónica y técnica del proyecto</p>
+                <p style="color: #667eea; font-weight: bold;">👉 Lee: <code>PROYECTO_RESUMEN.md</code></p>
+            </div>
+        </div>
+        
+        <!-- Estadísticas -->
+        <div class="stats">
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-number">2,500+</div>
+                    <div class="stat-label">Líneas de Código</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">17</div>
+                    <div class="stat-label">Endpoints API</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Tablas en BD</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Funcional</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Características -->
+        <div class="card">
+            <h3>✨ Características Principales</h3>
+            <div style="columns: 2; gap: 20px;">
+                <div class="feature">Autenticación segura con JWT</div>
+                <div class="feature">Registro con validaciones</div>
+                <div class="feature">Login y sesión persistente</div>
+                <div class="feature">CRUD completo de prendas</div>
+                <div class="feature">Categorías por género</div>
+                <div class="feature">Búsqueda y filtrado</div>
+                <div class="feature">Generador IA de outfits</div>
+                <div class="feature">Algoritmo de puntuación</div>
+                <div class="feature">Historial de recomendaciones</div>
+                <div class="feature">Sistema de valoración</div>
+                <div class="feature">UI responsive y moderna</div>
+                <div class="feature">Manejo de errores robusto</div>
+            </div>
+        </div>
+        
+        <!-- Arquitectura -->
+        <div class="architecture">
+            <h3>🏗️ Arquitectura Técnica</h3>
+            
+            <div class="arch-layer">
+                <h4>Frontend (React 18)</h4>
+                <p>3 componentes principales: Login, Register, Dashboard
+                <br>Estilos modernos con CSS responsive</p>
+            </div>
+            
+            <div class="arch-layer">
+                <h4>Backend (Node.js + Express)</h4>
+                <p>17 endpoints organizados en 4 módulos: Auth, Garments, Outfits, Recommendations
+                <br>Motor de recomendación IA con algoritmo de puntuación</p>
+            </div>
+            
+            <div class="arch-layer">
+                <h4>Base de Datos (PostgreSQL)</h4>
+                <p>12 tablas con relaciones complejas, índices para optimización, triggers automáticos
+                <br>Datos iniciales: categorías de prendas y matriz de colores</p>
+            </div>
+        </div>
+        
+        <!-- Endpoints -->
+        <div class="endpoints">
+            <h3>📡 API Endpoints Principales</h3>
+            
+            <h4 style="color: #667eea; margin-top: 15px;">Autenticación (4)</h4>
+            <div class="endpoint">
+                <span class="endpoint-method">POST</span>
+                <span class="endpoint-path">/api/auth/register</span>
+            </div>
+            <div class="endpoint">
+                <span class="endpoint-method">POST</span>
+                <span class="endpoint-path">/api/auth/login</span>
+            </div>
+            
+            <h4 style="color: #667eea; margin-top: 15px;">Prendas (6)</h4>
+            <div class="endpoint">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-path">/api/garments</span>
+            </div>
+            <div class="endpoint">
+                <span class="endpoint-method">POST</span>
+                <span class="endpoint-path">/api/garments</span>
+            </div>
+            
+            <h4 style="color: #667eea; margin-top: 15px;">⭐ Recomendaciones IA (3) - FUNCIÓN ESTRELLA</h4>
+            <div class="endpoint" style="border-left-color: #ff6b6b;">
+                <span class="endpoint-method" style="background: #ff6b6b;">POST</span>
+                <span class="endpoint-path">/api/recommendations/generate</span>
+                <br><small style="color: #666;">Genera outfit inteligente basado en ocasión y clima</small>
+            </div>
+            <div class="endpoint">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-path">/api/recommendations/history</span>
+            </div>
+        </div>
+        
+        <!-- Motor IA -->
+        <div class="card" style="border-left-color: #ff6b6b;">
+            <h3>🤖 Motor de Recomendación IA</h3>
+            <p style="margin-bottom: 15px;">La función más novedosa: Genera outfits inteligentes que combinan analizando:</p>
+            <div style="background: white; padding: 15px; border-radius: 8px;">
+                <p><strong>40%</strong> - Compatibilidad de colores</p>
+                <p><strong>30%</strong> - Categorías apropiadas para la ocasión</p>
+                <p><strong>20%</strong> - Variedad de prendas diferentes</p>
+                <p><strong>10%</strong> - Condición de la ropa</p>
+            </div>
+            <p style="margin-top: 15px; color: #666;">Resultado: Puntuación 0-100% con explicación clara</p>
+        </div>
+        
+        <!-- Stack Tecnológico -->
+        <div class="grid">
+            <div class="card">
+                <h3>⚙️ Frontend</h3>
+                <p>• React 18.2.0</p>
+                <p>• React Router 6</p>
+                <p>• Axios</p>
+                <p>• CSS3 Responsive</p>
+            </div>
+            
+            <div class="card">
+                <h3>⚙️ Backend</h3>
+                <p>• Node.js</p>
+                <p>• Express.js</p>
+                <p>• JWT Auth</p>
+                <p>• bcryptjs</p>
+            </div>
+            
+            <div class="card">
+                <h3>⚙️ Base de Datos</h3>
+                <p>• PostgreSQL 13+</p>
+                <p>• PgAdmin 4</p>
+                <p>• 12 tablas</p>
+                <p>• Relaciones complejas</p>
+            </div>
+        </div>
+        
+        <!-- Advertencia -->
+        <div class="warning">
+            <strong>⚠️ IMPORTANTE:</strong> Antes de ejecutar, asegúrate de tener instalados:
+            <br>✓ Node.js 16+ y npm 8+
+            <br>✓ PostgreSQL 13+
+            <br>✓ PgAdmin 4
+        </div>
+        
+        <!-- Botones de Acción -->
+        <div class="button-group">
+            <a href="./INICIO_RAPIDO_VISUAL.md" class="button">🚀 Empezar Ahora</a>
+            <a href="./INDEX.md" class="button">📖 Leer Documentación</a>
+            <a href="./PROYECTO_RESUMEN.md" class="button">🎯 Ver Resumen</a>
+        </div>
+        
+        <!-- Flujo de Usuario -->
+        <div class="card">
+            <h3>👤 Flujo de Usuario</h3>
+            <p style="text-align: center; margin: 20px 0; font-size: 1.1em;">
+                Registro → Selecciona Género → Agrega Prendas → 
+                <br style="margin: 10px;"><span style="color: #667eea; font-weight: bold;">Elige Ocasión/Clima → Genera Outfit ✨</span>
+            </p>
+        </div>
+        
+        <!-- Archivos -->
+        <div class="card">
+            <h3>📁 Archivos Principales</h3>
+            <p><strong>📚 Documentación:</strong></p>
+            <ul style="list-style: none; padding: 0;">
+                <li>→ <code>INDEX.md</code> - Centro de documentación</li>
+                <li>→ <code>INICIO_RAPIDO_VISUAL.md</code> - Guía visual paso a paso</li>
+                <li>→ <code>PROYECTO_RESUMEN.md</code> - Descripción técnica</li>
+                <li>→ <code>docs/API_EXAMPLES.md</code> - Ejemplos de API</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>⚙️ Técnico:</strong></p>
+            <ul style="list-style: none; padding: 0;">
+                <li>→ <code>backend/</code> - Servidor Node.js/Express</li>
+                <li>→ <code>frontend/</code> - Aplicación React</li>
+                <li>→ <code>database/schema.sql</code> - Script BD</li>
+            </ul>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>Creado con ❤️ en Diciembre 2025</p>
+            <p>MiCloset - Tu Closet Digital Inteligente</p>
+        </div>
+    </div>
+</body>
+</html>
