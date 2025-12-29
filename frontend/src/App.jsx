@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Landing from './components/Landing';
 import Login from './components/Login';
 import Register from './components/Register';
 import Closet from './components/Closet';
@@ -42,7 +43,7 @@ function App() {
             </PrivateRoute>
           } 
         />
-        <Route path="/" element={<Navigate to="/closet" />} />
+        <Route path="/" element={<Landing />} />
       </Routes>
     </Router>
   );

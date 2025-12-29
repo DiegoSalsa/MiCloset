@@ -54,7 +54,7 @@ const Register = () => {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       
-      navigate('/dashboard');
+      navigate('/outfits');
     } catch (err) {
       setError(err.response?.data?.error || 'Error al registrar');
     } finally {
