@@ -1,11 +1,17 @@
 const express = require('express');
 const pool = require('../config/db');
 const { authenticateToken } = require('../middleware/auth');
-const fs = require('fs');
-const path = require('path');
 const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
 
 const router = express.Router();
+
+// Configurar Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // Función helper para procesar tags
 const parseTags = (tagsData) => {
@@ -23,24 +29,8 @@ const parseTags = (tagsData) => {
   }
 };
 
-// Crear carpeta de uploads si no existe
-const uploadsDir = path.join(__dirname, '../uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
-
-// Configurar multer para carga de imágenes
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadsDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname);
-    const name = path.basename(file.originalname, ext);
-    cb(null, name + '-' + uniqueSuffix + ext);
-  }
-});
+// Configurar multer para almacenar archivos en memoria (buffer)
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   // Permitir solo imágenes
@@ -134,8 +124,24 @@ router.post('/', authenticateToken, upload.single('image'), async (req, res) => 
       return res.status(400).json({ error: 'Se requiere una imagen para la prenda' });
     }
 
-    // Construir URL de la imagen
-    const imageUrl = `/uploads/${req.file.filename}`;
+    // Subir imagen a Cloudinary usando buffer
+    const uploadPromise = new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        {
+          folder: 'micloset/garments',
+          public_id: `${req.user.id}-${Date.now()}`,
+          resource_type: 'auto'
+        },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      stream.end(req.file.buffer);
+    });
+
+    const cloudinaryResult = await uploadPromise;
+    const imageUrl = cloudinaryResult.secure_url;
 
     // Procesar tags
     let tagsData = [];
