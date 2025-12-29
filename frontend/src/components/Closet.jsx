@@ -122,7 +122,7 @@ const Closet = () => {
         <div className="closet-header">
           <h2>📂 Mi Closet Digital</h2>
           <p className="closet-stats">Total de prendas: <strong>{totalGarments}</strong></p>
-          <button className="add-garment-btn" onClick={() => navigate('/dashboard')}>
+          <button className="add-garment-btn" onClick={() => navigate('/outfits')}>
             ➕ Agregar Prenda
           </button>
         </div>
@@ -144,7 +144,7 @@ const Closet = () => {
                     <div key={garment.id} className="garment-card">
                       <div className="garment-image">
                         <img 
-                          src={garment.image_url ? `http://localhost:5000${garment.image_url}` : 'https://via.placeholder.com/200x250?text=' + encodeURIComponent(garment.name)}
+                          src={garment.image_url || 'https://via.placeholder.com/200x250?text=' + encodeURIComponent(garment.name)}
                           alt={garment.name}
                           onError={(e) => e.target.src = 'https://via.placeholder.com/200x250?text=Sin+imagen'}
                         />

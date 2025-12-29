@@ -2,9 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
-import Dashboard from './components/Dashboard';
 import Closet from './components/Closet';
 import Stats from './components/Stats';
+import Dashboard from './components/Dashboard';
 import './App.css';
 
 const PrivateRoute = ({ children }) => {
@@ -18,14 +18,6 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route 
-          path="/dashboard" 
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          } 
-        />
         <Route 
           path="/closet" 
           element={
@@ -50,7 +42,7 @@ function App() {
             </PrivateRoute>
           } 
         />
-        <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="/" element={<Navigate to="/closet" />} />
       </Routes>
     </Router>
   );

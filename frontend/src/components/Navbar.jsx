@@ -23,14 +23,6 @@ const Navbar = () => {
           <li>
             <button 
               className="nav-link" 
-              onClick={() => navigate('/dashboard')}
-            >
-              Dashboard
-            </button>
-          </li>
-          <li>
-            <button 
-              className="nav-link" 
               onClick={() => navigate('/closet')}
             >
               Mi Closet

@@ -116,24 +116,24 @@ CREATE TABLE rejected_combinations (
 
 -- Insertar categorías iniciales
 INSERT INTO clothing_categories (name, gender, icon_emoji) VALUES
-('Blusas', 'femenino', '👕'),
-('Camisetas', 'femenino', '👕'),
-('Pantalones', 'femenino', '👖'),
-('Shorts', 'femenino', '👖'),
-('Faldas', 'femenino', '👗'),
-('Vestidos', 'femenino', '💃'),
-('Hoodies', 'femenino', '🧥'),
-('Sudaderas', 'femenino', '🧥'),
-('Chaquetas', 'femenino', '🧥'),
-('Abrigos', 'femenino', '🧥'),
-('Zapatillas', 'femenino', '👟'),
-('Zapatos', 'femenino', '👟'),
-('Accesorios', 'femenino', '👜'),
-('Cinturones', 'femenino', '👜'),
-('Gorras', 'femenino', '🎩'),
-('Sombreros', 'femenino', '🎩'),
-('Bolsos', 'femenino', '👜'),
-('Mochilas', 'femenino', '👜');
+('Blusas', 'unisex', '👕'),
+('Camisetas', 'unisex', '👕'),
+('Pantalones', 'unisex', '👖'),
+('Shorts', 'unisex', '👖'),
+('Faldas', 'unisex', '👗'),
+('Vestidos', 'unisex', '💃'),
+('Hoodies', 'unisex', '🧥'),
+('Sudaderas', 'unisex', '🧥'),
+('Chaquetas', 'unisex', '🧥'),
+('Abrigos', 'unisex', '🧥'),
+('Zapatillas', 'unisex', '👟'),
+('Zapatos', 'unisex', '👟'),
+('Accesorios', 'unisex', '👜'),
+('Cinturones', 'unisex', '👜'),
+('Gorras', 'unisex', '🎩'),
+('Sombreros', 'unisex', '🎩'),
+('Bolsos', 'unisex', '👜'),
+('Mochilas', 'unisex', '👜');
 
 -- Insertar compatibilidades de colores
 INSERT INTO color_compatibility (color1, color2, compatibility_score) VALUES
