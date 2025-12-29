@@ -632,7 +632,22 @@
 .rejection-options {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
+}
+
+.rejection-category {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.category-title {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
 }
 
 .rejection-btn {
@@ -649,8 +664,20 @@
   text-align: left;
 }
 
-.rejection-btn:hover:not(.cancel) {
+.rejection-btn.garment-btn:hover {
   border-color: #ff4444;
+  background: #2a2a2a;
+  transform: translateX(5px);
+}
+
+.rejection-btn.combination-btn:hover {
+  border-color: #ffaa00;
+  background: #2a2a2a;
+  transform: translateX(5px);
+}
+
+.rejection-btn.general-btn:hover {
+  border-color: #ff6666;
   background: #2a2a2a;
   transform: translateX(5px);
 }
@@ -660,6 +687,13 @@
   height: 100px;
   object-fit: cover;
   border-radius: 8px;
+}
+
+.rejection-btn .icon {
+  font-size: 2rem;
+  width: 80px;
+  text-align: center;
+  color: #ffaa00;
 }
 
 .rejection-info {
@@ -675,16 +709,18 @@
 .rejection-info p {
   margin: 0;
   color: #888;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .rejection-btn.cancel {
   justify-content: center;
   background: #333;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.8rem;
 }
 
 .rejection-btn.cancel:hover {
   background: #444;
   border-color: #555;
+  transform: none;
 }

@@ -87,7 +87,7 @@ const Dashboard = () => {
     if (!recommendation) return;
     
     if (!liked) {
-      // Si no gustó, mostrar modal para seleccionar prenda problemática
+      // Si no gustó, mostrar modal para seleccionar razón
       setShowRejectionModal(true);
       return;
     }
@@ -100,7 +100,8 @@ const Dashboard = () => {
         garmentIds: recommendation.items.map(item => item.id),
         occasion,
         weather,
-        rejectedGarmentId: null
+        rejectionType: null,
+        rejectionData: null
       });
       
       alert('¡Excelente! Aprenderemos de tu gusto');
@@ -110,7 +111,7 @@ const Dashboard = () => {
     }
   };
 
-  const handleConfirmRejection = async (garmentId) => {
+  const handleConfirmRejection = async (rejectionType, rejectionData) => {
     if (!recommendation) return;
     
     const token = localStorage.getItem('token');
@@ -120,10 +121,20 @@ const Dashboard = () => {
         garmentIds: recommendation.items.map(item => item.id),
         occasion,
         weather,
-        rejectedGarmentId: garmentId
+        rejectionType,
+        rejectionData
       });
       
-      alert('Entendido! Evitaremos esa prenda en futuros outfits');
+      let message = 'Entendido! ';
+      if (rejectionType === 'garment') {
+        message += 'Evitaremos esa prenda en futuros outfits';
+      } else if (rejectionType === 'combination') {
+        message += 'Recordaremos que esas prendas no combinan bien';
+      } else {
+        message += 'Consideraremos tu feedback para mejores recomendaciones';
+      }
+      
+      alert(message);
       setRecommendation(null);
       setShowRejectionModal(false);
       setRejectedGarmentId(null);
@@ -355,31 +366,67 @@ const Dashboard = () => {
         </section>
       </div>
 
-      {/* Modal de Selección de Prenda Rechazada */}
+      {/* Modal de Selección de Motivo de Rechazo */}
       {showRejectionModal && recommendation && (
         <div className="modal-overlay" onClick={() => setShowRejectionModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>¿Cuál prenda no te gustó?</h3>
-            <p>Selecciona la prenda problemática para que la evitemos en futuros outfits:</p>
+            <h3>¿Qué no te gustó?</h3>
+            <p>Ayúdanos a entender qué mejorar:</p>
             
             <div className="rejection-options">
-              {recommendation.items.map((item) => (
+              {/* Opción 1: Prenda específica */}
+              <div className="rejection-category">
+                <p className="category-title">Una prenda específica:</p>
+                {recommendation.items.map((item) => (
+                  <button
+                    key={item.id}
+                    className="rejection-btn garment-btn"
+                    onClick={() => handleConfirmRejection('garment', item.id)}
+                  >
+                    <img 
+                      src={item.image_url || 'https://via.placeholder.com/80x100?text=' + encodeURIComponent(item.name)}
+                      alt={item.name}
+                      onError={(e) => e.target.src = 'https://via.placeholder.com/80x100?text=Sin+imagen'}
+                    />
+                    <div className="rejection-info">
+                      <strong>{item.name}</strong>
+                      <p>{item.category}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {/* Opción 2: Cómo combinan */}
+              <div className="rejection-category">
+                <p className="category-title">Cómo combinan entre sí:</p>
                 <button
-                  key={item.id}
-                  className="rejection-btn"
-                  onClick={() => handleConfirmRejection(item.id)}
+                  className="rejection-btn combination-btn"
+                  onClick={() => handleConfirmRejection('combination', null)}
                 >
-                  <img 
-                    src={item.image_url || 'https://via.placeholder.com/80x100?text=' + encodeURIComponent(item.name)}
-                    alt={item.name}
-                    onError={(e) => e.target.src = 'https://via.placeholder.com/80x100?text=Sin+imagen'}
-                  />
+                  <span className="icon">⚡</span>
                   <div className="rejection-info">
-                    <strong>{item.name}</strong>
-                    <p>{item.category}</p>
+                    <strong>Las prendas no combinan bien</strong>
+                    <p>Los colores o estilos no se llevan</p>
                   </div>
                 </button>
-              ))}
+              </div>
+
+              {/* Opción 3: En general */}
+              <div className="rejection-category">
+                <p className="category-title">En general:</p>
+                <button
+                  className="rejection-btn general-btn"
+                  onClick={() => handleConfirmRejection('general', null)}
+                >
+                  <span className="icon">❌</span>
+                  <div className="rejection-info">
+                    <strong>El outfit no me gusta</strong>
+                    <p>Por otro motivo</p>
+                  </div>
+                </button>
+              </div>
+
+              {/* Cancelar */}
               <button
                 className="rejection-btn cancel"
                 onClick={() => setShowRejectionModal(false)}
