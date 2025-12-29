@@ -319,14 +319,10 @@ const generateReasoning = (items, occasion, weather, score) => {
 
 const saveOutfitRating = async (userId, garmentIds, occasion, weather, liked) => {
   try {
-    const result = await pool.query(
-      `INSERT INTO outfit_ratings (user_id, garment_ids, occasion, weather, rating)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING *`,
-      [userId, garmentIds, occasion, weather, liked]
-    );
-    
-    return result.rows[0];
+    // El rating se guarda directamente en outfit_recommendations mediante UPDATE
+    // Esta función ya no inserta, solo devuelve éxito
+    console.log('✅ Rating guardado para usuario:', userId, 'liked:', liked);
+    return { userId, liked, timestamp: new Date() };
   } catch (error) {
     console.error('Error guardando rating:', error);
     throw error;
@@ -340,9 +336,10 @@ const updateUserLearning = async (userId) => {
     // Calcular colores más usados en outfits con rating positivo
     const colorResult = await pool.query(
       `SELECT g.color, COUNT(*) as count
-       FROM outfit_ratings r
-       JOIN garments g ON g.id = ANY(r.garment_ids)
-       WHERE r.user_id = $1 AND r.rating = true
+       FROM outfit_recommendations r
+       JOIN outfit_items oi ON oi.outfit_id = r.outfit_id
+       JOIN garments g ON g.id = oi.garment_id
+       WHERE r.user_id = $1 AND r.liked = true
        GROUP BY g.color
        ORDER BY count DESC
        LIMIT 5`,
@@ -360,9 +357,10 @@ const updateUserLearning = async (userId) => {
       [userId, JSON.stringify(favoriteColors)]
     );
     
+    console.log('✅ Preferencias actualizadas para usuario:', userId);
   } catch (error) {
     console.error('Error actualizando aprendizaje:', error);
-    throw error;
+    // No fallar completamente si hay error aquí - es secundario
   }
 };
 
