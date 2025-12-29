@@ -90,15 +90,19 @@ router.post('/:recommendationId/rate', authenticateToken, async (req, res) => {
 
     // Si rechazó una prenda específica, guardarla en rejected_combinations
     if (!liked && rejectedGarmentId) {
-      // Guardar relación de rechazo para esa prenda específica
-      await pool.query(
-        `INSERT INTO rejected_combinations (user_id, garment_id1, reason)
-         VALUES ($1, $2, 'Rechazada en outfit')
-         ON CONFLICT DO NOTHING`,
-        [req.user.id, rejectedGarmentId]
-      );
-      
-      console.log('🚫 Prenda rechazada:', rejectedGarmentId);
+      // Guardar relación de rechazo para esa prenda específica (garment_id1 y garment_id2 son iguales)
+      try {
+        await pool.query(
+          `INSERT INTO rejected_combinations (user_id, garment_id1, garment_id2, reason)
+           VALUES ($1, $2, $2, 'Prenda rechazada en outfit')
+           ON CONFLICT (user_id, garment_id1, garment_id2) DO NOTHING`,
+          [req.user.id, rejectedGarmentId]
+        );
+        console.log('🚫 Prenda rechazada:', rejectedGarmentId);
+      } catch (rejError) {
+        console.warn('⚠️ Error al guardar rechazo, continuando:', rejError.message);
+        // No fallar si hay error aquí - es secundario
+      }
     }
 
     // Guardar el rating
