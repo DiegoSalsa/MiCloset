@@ -178,33 +178,10 @@ const generateSmartOutfit = async (userId, occasion, weather, selectedCategoryId
     let garments = garmentsResult.rows;
     console.log(`📊 Prendas obtenidas: ${garments.length} (por categoría: ${selectedCategoryIds.map(cid => garments.filter(g => g.category_id === cid).length).join(', ')})`);
     
-    // 1.5 Obtener score de rechazo para cada prenda
-    const rejectScoresResult = await pool.query(
-      `SELECT g.id,
-        SUM(CASE WHEN r.rating = false THEN 1 ELSE 0 END)::INT as reject_count,
-        SUM(CASE WHEN r.rating = true THEN 1 ELSE 0 END)::INT as accept_count,
-        COALESCE(ROUND(100.0 * SUM(CASE WHEN r.rating = false THEN 1 ELSE 0 END) / 
-              NULLIF(SUM(CASE WHEN r.rating IS NOT NULL THEN 1 ELSE 0 END), 0), 1), 0) as reject_percentage
-       FROM garments g
-       LEFT JOIN outfit_ratings r ON r.user_id = $1 AND g.id = ANY(r.garment_ids)
-       WHERE g.user_id = $1 AND g.id = ANY($2)
-       GROUP BY g.id`,
-      [userId, garments.map(g => g.id)]
-    );
-    
-    const rejectScores = {};
-    rejectScoresResult.rows.forEach(row => {
-      rejectScores[row.id] = {
-        rejectCount: row.reject_count || 0,
-        acceptCount: row.accept_count || 0,
-        rejectPercentage: row.reject_percentage || 0
-      };
-    });
-    
-    // Enriquecer prendas con score de rechazo
+    // 1.5 Por ahora no tenemos ratings, simplificar
     garments = garments.map(g => ({
       ...g,
-      rejectScore: rejectScores[g.id] || { rejectCount: 0, acceptCount: 0, rejectPercentage: 0 }
+      rejectScore: { rejectCount: 0, acceptCount: 0, rejectPercentage: 0 }
     }));
     
     // 2. Aplicar reglas de negocio

@@ -50,22 +50,22 @@ export default function Stats() {
     <>
       <Navbar />
       <div className="stats-container">
-        <h1>📊 Mis Estadísticas</h1>
+        <h1>Mis Estadísticas</h1>
 
       {/* Resumen General */}
       <section className="stats-section">
-        <h2>📈 Resumen General</h2>
+        <h2>Resumen General</h2>
         <div className="summary-cards">
           <div className="card">
             <div className="card-label">Total de Outfits</div>
             <div className="card-value">{stats.ratings?.total || 0}</div>
           </div>
           <div className="card success">
-            <div className="card-label">Me Encantaron 👍</div>
+            <div className="card-label">Me Encantaron</div>
             <div className="card-value">{stats.ratings?.liked || 0}</div>
           </div>
           <div className="card danger">
-            <div className="card-label">No Me Gustaron 👎</div>
+            <div className="card-label">No Me Gustaron</div>
             <div className="card-value">{stats.ratings?.disliked || 0}</div>
           </div>
         </div>
@@ -73,7 +73,7 @@ export default function Stats() {
 
       {/* Prendas Favoritas */}
       <section className="stats-section">
-        <h2>❤️ Prendas Favoritas</h2>
+        <h2>Prendas Favoritas</h2>
         {stats.favoriteGarments && stats.favoriteGarments.length > 0 ? (
           <div className="items-grid">
             {stats.favoriteGarments.map((item) => (
@@ -84,11 +84,11 @@ export default function Stats() {
                 </div>
                 <div className="item-stats">
                   <div className="stat">
-                    <span className="label">👍 Positivos:</span>
+                    <span className="label">Positivos:</span>
                     <span className="value">{item.positive_count}</span>
                   </div>
                   <div className="stat">
-                    <span className="label">👎 Negativos:</span>
+                    <span className="label">Negativos:</span>
                     <span className="value">{item.negative_count}</span>
                   </div>
                 </div>
@@ -96,13 +96,13 @@ export default function Stats() {
             ))}
           </div>
         ) : (
-          <p className="empty-state">Aún no tienes prendas favoritas. ¡Crea outfits y dale 👍!</p>
+          <p className="empty-state">Aún no tienes prendas favoritas. ¡Crea outfits y califica!</p>
         )}
       </section>
 
       {/* Prendas Problemáticas */}
       <section className="stats-section warning">
-        <h2>⚠️ Prendas Frecuentemente Rechazadas</h2>
+        <h2>Prendas Frecuentemente Rechazadas</h2>
         {stats.problematicGarments && stats.problematicGarments.length > 0 ? (
           <div className="items-grid">
             {stats.problematicGarments.map((item) => (
@@ -145,7 +145,7 @@ export default function Stats() {
 
       {/* Ocasiones Favoritas */}
       <section className="stats-section">
-        <h2>🎯 Ocasiones Preferidas</h2>
+        <h2>Ocasiones Preferidas</h2>
         {stats.favoriteOccasions && stats.favoriteOccasions.length > 0 ? (
           <div className="preference-list">
             {stats.favoriteOccasions.map((item, idx) => (
@@ -170,7 +170,7 @@ export default function Stats() {
 
       {/* Climas Favoritos */}
       <section className="stats-section">
-        <h2>🌤️ Climas Preferidos</h2>
+        <h2>Climas Preferidos</h2>
         {stats.favoriteWeather && stats.favoriteWeather.length > 0 ? (
           <div className="preference-list">
             {stats.favoriteWeather.map((item, idx) => (
@@ -195,7 +195,7 @@ export default function Stats() {
 
       {/* Colores Favoritos */}
       <section className="stats-section">
-        <h2>🎨 Colores Favoritos</h2>
+        <h2>Colores Favoritos</h2>
         {stats.favoriteColors && stats.favoriteColors.length > 0 ? (
           <div className="colors-grid">
             {stats.favoriteColors.map((color, idx) => (
