@@ -70,12 +70,12 @@ router.post('/generate', authenticateToken, async (req, res) => {
 router.post('/:recommendationId/rate', authenticateToken, async (req, res) => {
   try {
     const { recommendationId } = req.params;
-    const { liked, garmentIds, occasion, weather } = req.body;
+    const { liked, garmentIds, occasion, weather, rejectedGarmentId } = req.body;
 
-    console.log('📥 Calificando outfit:', { userId: req.user.id, recommendationId, liked, garmentIds });
+    console.log('📥 Calificando outfit:', { userId: req.user.id, recommendationId, liked, rejectedGarmentId });
 
     if (typeof liked !== 'boolean') {
-      return res.status(400).json({ error: 'liked debe ser true (👍) o false (👎)' });
+      return res.status(400).json({ error: 'liked debe ser true o false' });
     }
 
     // Verificar que la recomendación pertenece al usuario
@@ -86,6 +86,19 @@ router.post('/:recommendationId/rate', authenticateToken, async (req, res) => {
 
     if (recCheck.rows.length === 0) {
       return res.status(404).json({ error: 'Recomendación no encontrada' });
+    }
+
+    // Si rechazó una prenda específica, guardarla en rejected_combinations
+    if (!liked && rejectedGarmentId) {
+      // Guardar relación de rechazo para esa prenda específica
+      await pool.query(
+        `INSERT INTO rejected_combinations (user_id, garment_id1, reason)
+         VALUES ($1, $2, 'Rechazada en outfit')
+         ON CONFLICT DO NOTHING`,
+        [req.user.id, rejectedGarmentId]
+      );
+      
+      console.log('🚫 Prenda rechazada:', rejectedGarmentId);
     }
 
     // Guardar el rating
@@ -110,10 +123,13 @@ router.post('/:recommendationId/rate', authenticateToken, async (req, res) => {
 
     res.json({
       message: liked 
-        ? '❤️ ¡Excelente! El sistema aprenderá de esto' 
-        : '👎 Tomaremos en cuenta tu feedback para mejores recomendaciones',
+        ? 'Excelente! El sistema aprenderá de esto' 
+        : rejectedGarmentId 
+          ? 'Entendido! Evitaremos esa prenda en futuros outfits'
+          : 'Tomaremos en cuenta tu feedback para mejores recomendaciones',
       rating: {
         liked,
+        rejectedGarmentId: rejectedGarmentId || null,
         timestamp: new Date().toISOString()
       }
     });

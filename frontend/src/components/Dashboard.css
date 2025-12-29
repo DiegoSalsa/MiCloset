@@ -590,3 +590,101 @@
     width: 100%;
   }
 }
+
+/* Modal de Selección de Prenda */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 15px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: #ffffff;
+}
+
+.modal-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.modal-content p {
+  margin: 0 0 1.5rem 0;
+  color: #b0b0b0;
+  font-size: 0.95rem;
+}
+
+.rejection-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rejection-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #252525;
+  border: 2px solid #333;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #ffffff;
+  text-align: left;
+}
+
+.rejection-btn:hover:not(.cancel) {
+  border-color: #ff4444;
+  background: #2a2a2a;
+  transform: translateX(5px);
+}
+
+.rejection-btn img {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.rejection-info {
+  flex: 1;
+}
+
+.rejection-info strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #ffffff;
+}
+
+.rejection-info p {
+  margin: 0;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.rejection-btn.cancel {
+  justify-content: center;
+  background: #333;
+  margin-top: 0.5rem;
+}
+
+.rejection-btn.cancel:hover {
+  background: #444;
+  border-color: #555;
+}

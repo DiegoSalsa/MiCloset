@@ -175,10 +175,20 @@ const generateSmartOutfit = async (userId, occasion, weather, selectedCategoryId
       [userId, selectedCategoryIds]
     );
     
-    let garments = garmentsResult.rows;
-    console.log(`📊 Prendas obtenidas: ${garments.length} (por categoría: ${selectedCategoryIds.map(cid => garments.filter(g => g.category_id === cid).length).join(', ')})`);
+    // Obtener prendas rechazadas del usuario
+    const rejectedResult = await pool.query(
+      `SELECT garment_id1 FROM rejected_combinations WHERE user_id = $1`,
+      [userId]
+    );
     
-    // 1.5 Por ahora no tenemos ratings, simplificar
+    const rejectedGarmentIds = new Set(rejectedResult.rows.map(r => r.garment_id1));
+    
+    // Filtrar prendas rechazadas
+    let garments = garmentsResult.rows.filter(g => !rejectedGarmentIds.has(g.id));
+    
+    console.log(`📊 Prendas obtenidas: ${garments.length} (descartadas: ${rejectedGarmentIds.size})`);
+    
+    // 1.5 Agregar rejectScore
     garments = garments.map(g => ({
       ...g,
       rejectScore: { rejectCount: 0, acceptCount: 0, rejectPercentage: 0 }

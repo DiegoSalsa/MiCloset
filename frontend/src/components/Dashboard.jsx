@@ -13,6 +13,8 @@ const Dashboard = () => {
   const [occasion, setOccasion] = useState('casual');
   const [weather, setWeather] = useState('templado');
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [showRejectionModal, setShowRejectionModal] = useState(false);
+  const [rejectedGarmentId, setRejectedGarmentId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -84,21 +86,47 @@ const Dashboard = () => {
   const handleRateOutfit = async (liked) => {
     if (!recommendation) return;
     
-    const token = localStorage.getItem('token');
-    const garmentIds = recommendation.items.map(item => item.id);
+    if (!liked) {
+      // Si no gustó, mostrar modal para seleccionar prenda problemática
+      setShowRejectionModal(true);
+      return;
+    }
     
+    // Si gustó, guardar directamente
+    const token = localStorage.getItem('token');
     try {
       await outfitService.rateOutfit(token, recommendation.id, {
-        liked,
-        garmentIds,
+        liked: true,
+        garmentIds: recommendation.items.map(item => item.id),
         occasion,
-        weather
+        weather,
+        rejectedGarmentId: null
       });
       
-      alert(liked ? 'Excelente! Aprenderemos de tu gusto' : 'Gracias por tu feedback');
-      
-      // Limpiar recomendación
+      alert('¡Excelente! Aprenderemos de tu gusto');
       setRecommendation(null);
+    } catch (error) {
+      alert('Error al calificar: ' + (error.response?.data?.error || 'Intenta de nuevo'));
+    }
+  };
+
+  const handleConfirmRejection = async (garmentId) => {
+    if (!recommendation) return;
+    
+    const token = localStorage.getItem('token');
+    try {
+      await outfitService.rateOutfit(token, recommendation.id, {
+        liked: false,
+        garmentIds: recommendation.items.map(item => item.id),
+        occasion,
+        weather,
+        rejectedGarmentId: garmentId
+      });
+      
+      alert('Entendido! Evitaremos esa prenda en futuros outfits');
+      setRecommendation(null);
+      setShowRejectionModal(false);
+      setRejectedGarmentId(null);
     } catch (error) {
       alert('Error al calificar: ' + (error.response?.data?.error || 'Intenta de nuevo'));
     }
@@ -326,6 +354,42 @@ const Dashboard = () => {
           </div>
         </section>
       </div>
+
+      {/* Modal de Selección de Prenda Rechazada */}
+      {showRejectionModal && recommendation && (
+        <div className="modal-overlay" onClick={() => setShowRejectionModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>¿Cuál prenda no te gustó?</h3>
+            <p>Selecciona la prenda problemática para que la evitemos en futuros outfits:</p>
+            
+            <div className="rejection-options">
+              {recommendation.items.map((item) => (
+                <button
+                  key={item.id}
+                  className="rejection-btn"
+                  onClick={() => handleConfirmRejection(item.id)}
+                >
+                  <img 
+                    src={item.image_url || 'https://via.placeholder.com/80x100?text=' + encodeURIComponent(item.name)}
+                    alt={item.name}
+                    onError={(e) => e.target.src = 'https://via.placeholder.com/80x100?text=Sin+imagen'}
+                  />
+                  <div className="rejection-info">
+                    <strong>{item.name}</strong>
+                    <p>{item.category}</p>
+                  </div>
+                </button>
+              ))}
+              <button
+                className="rejection-btn cancel"
+                onClick={() => setShowRejectionModal(false)}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       </div>
     </>
   );
